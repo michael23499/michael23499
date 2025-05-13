@@ -1,8 +1,8 @@
-# 💫 About Me:
+# 🚀🚀 Sobre mí:
 🔭 Actualmente estoy trabajando en una aplicación web para gestión de proyectos con React y Node.js, enfocada en la colaboración en equipo.<br>🤝 Estoy buscando ayuda con integración de APIs en mi proyecto actual, especialmente con servicios de autenticación como OAuth.<br>🌱 Actualmente estoy aprendiendo el desarrollo de microservicios utilizando Docker y Kubernetes para mejorar la escalabilidad de mis aplicaciones.<br>⚡ Soy un aficionado a los juegos de mesa y organizo noches de juegos con amigos. 
 
 
-## 🌐 Socials:
+## 🌐 Social:
 [![Facebook](https://img.shields.io/badge/Facebook-%231877F2.svg?logo=Facebook&logoColor=white)](https://www.facebook.com/MichaelArismendi12/) [![Instagram](https://img.shields.io/badge/Instagram-%23E4405F.svg?logo=Instagram&logoColor=white)](https://instagram.com/michael_arismendi) [![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/michael-arismendi/) [![X](https://img.shields.io/badge/X-black.svg?logo=X&logoColor=white)](https://x.com/MichaelArismendi4) [![email](https://img.shields.io/badge/Email-D14836?logo=gmail&logoColor=white)](mailto:michaelarismendi2@gmail.com) 
 
 # 💻 Tech Stack:
