@@ -22,6 +22,11 @@ jobs:
           outputs: |
             dist/github-contribution-grid-snake.svg?color_snake=#fbbf24&color_dots=#141414,#3d1414,#7a1f1f,#c92a2a,#ff3131
 
+      # El SVG trae una "pila de progreso" (rects .u) bajo el grid donde se
+      # acumula lo comido; la ocultamos inyectando CSS en el propio SVG.
+      - name: ocultar la barra de progreso
+        run: sed -i 's|</style>|.u{display:none}</style>|' dist/github-contribution-grid-snake.svg
+
       - name: push github-contribution-grid-snake.svg to the output branch
         uses: crazy-max/ghaction-github-pages@v4
         with:
