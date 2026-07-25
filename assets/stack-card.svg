@@ -1,0 +1,97 @@
+<svg width="860" height="462" viewBox="0 0 860 462" xmlns="http://www.w3.org/2000/svg" font-family="Fira Code, Consolas, Menlo, monospace">
+  <defs>
+    <linearGradient id="nameGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff3131"/><stop offset="55%" stop-color="#ff7849"/><stop offset="100%" stop-color="#ff5e7d"/>
+    </linearGradient>
+  </defs>
+  <rect x="1" y="1" width="858" height="460" rx="14" fill="#0a0a0d" stroke="#ff3131" stroke-opacity="0.25"/>
+  <rect x="1" y="1" width="858" height="38" rx="14" fill="#141416"/>
+  <rect x="1" y="27" width="858" height="12" fill="#141416"/>
+  <circle cx="26" cy="20" r="6" fill="#ff3131"/><circle cx="46" cy="20" r="6" fill="#ffbd2e"/><circle cx="66" cy="20" r="6" fill="#27c93f"/>
+  <text x="430" y="25" text-anchor="middle" font-size="13" fill="#8b8b93">michael@github: ~$ stack --all</text>
+
+  <g opacity="0"><animate attributeName="opacity" from="0" to="1" begin="0.2s" dur="0.6s" fill="freeze"/>
+    <text x="28" y="92" font-size="27" font-weight="bold" fill="url(#nameGrad)">Michael Arismendi</text>
+    <text x="28" y="118" font-size="13"><tspan fill="#e2e8f0">Full Stack Developer</tspan><tspan fill="#3a3a42"> · </tspan><tspan fill="#a78bfa">AI &amp; RAG Integration</tspan><tspan fill="#3a3a42"> · </tspan><tspan fill="#8b8b93">5+ años en producción</tspan></text>
+  </g>
+  <g opacity="0"><animate attributeName="opacity" from="0" to="1" begin="0.6s" dur="0.4s" fill="freeze"/>
+    <line x1="28" y1="142" x2="832" y2="142" stroke="#26262c" stroke-width="1"/>
+  </g>
+
+<g opacity="0"><animate attributeName="opacity" from="0" to="1" begin="0.90s" dur="0.45s" fill="freeze"/>
+<text x="28" y="193" font-size="13" font-weight="bold" fill="#ff3131">Frontend</text>
+<rect x="150" y="176" width="59" height="25" rx="12.5" fill="#ff3131" fill-opacity="0.09" stroke="#ff3131" stroke-opacity="0.45"/>
+<text x="179.5" y="193" text-anchor="middle" font-size="12" fill="#e2e8f0">React</text>
+<rect x="217" y="176" width="74" height="25" rx="12.5" fill="#ff3131" fill-opacity="0.09" stroke="#ff3131" stroke-opacity="0.45"/>
+<text x="254.0" y="193" text-anchor="middle" font-size="12" fill="#e2e8f0">Next.js</text>
+<rect x="299" y="176" width="96" height="25" rx="12.5" fill="#ff3131" fill-opacity="0.09" stroke="#ff3131" stroke-opacity="0.45"/>
+<text x="347.0" y="193" text-anchor="middle" font-size="12" fill="#e2e8f0">TypeScript</text>
+<rect x="403" y="176" width="74" height="25" rx="12.5" fill="#ff3131" fill-opacity="0.09" stroke="#ff3131" stroke-opacity="0.45"/>
+<text x="440.0" y="193" text-anchor="middle" font-size="12" fill="#e2e8f0">Angular</text>
+<rect x="485" y="176" width="82" height="25" rx="12.5" fill="#ff3131" fill-opacity="0.09" stroke="#ff3131" stroke-opacity="0.45"/>
+<text x="526.0" y="193" text-anchor="middle" font-size="12" fill="#e2e8f0">Tailwind</text>
+<rect x="575" y="176" width="52" height="25" rx="12.5" fill="#ff3131" fill-opacity="0.09" stroke="#ff3131" stroke-opacity="0.45"/>
+<text x="601.0" y="193" text-anchor="middle" font-size="12" fill="#e2e8f0">Vite</text>
+</g>
+<g opacity="0"><animate attributeName="opacity" from="0" to="1" begin="1.08s" dur="0.45s" fill="freeze"/>
+<text x="28" y="239" font-size="13" font-weight="bold" fill="#ff7849">Backend</text>
+<rect x="150" y="222" width="74" height="25" rx="12.5" fill="#ff7849" fill-opacity="0.09" stroke="#ff7849" stroke-opacity="0.45"/>
+<text x="187.0" y="239" text-anchor="middle" font-size="12" fill="#e2e8f0">Node.js</text>
+<rect x="232" y="222" width="37" height="25" rx="12.5" fill="#ff7849" fill-opacity="0.09" stroke="#ff7849" stroke-opacity="0.45"/>
+<text x="250.5" y="239" text-anchor="middle" font-size="12" fill="#e2e8f0">Go</text>
+<rect x="277" y="222" width="67" height="25" rx="12.5" fill="#ff7849" fill-opacity="0.09" stroke="#ff7849" stroke-opacity="0.45"/>
+<text x="310.5" y="239" text-anchor="middle" font-size="12" fill="#e2e8f0">Python</text>
+<rect x="352" y="222" width="74" height="25" rx="12.5" fill="#ff7849" fill-opacity="0.09" stroke="#ff7849" stroke-opacity="0.45"/>
+<text x="389.0" y="239" text-anchor="middle" font-size="12" fill="#e2e8f0">FastAPI</text>
+<rect x="434" y="222" width="74" height="25" rx="12.5" fill="#ff7849" fill-opacity="0.09" stroke="#ff7849" stroke-opacity="0.45"/>
+<text x="471.0" y="239" text-anchor="middle" font-size="12" fill="#e2e8f0">Laravel</text>
+</g>
+<g opacity="0"><animate attributeName="opacity" from="0" to="1" begin="1.26s" dur="0.45s" fill="freeze"/>
+<text x="28" y="285" font-size="13" font-weight="bold" fill="#fbbf24">Cloud</text>
+<rect x="150" y="268" width="96" height="25" rx="12.5" fill="#fbbf24" fill-opacity="0.09" stroke="#fbbf24" stroke-opacity="0.45"/>
+<text x="198.0" y="285" text-anchor="middle" font-size="12" fill="#e2e8f0">AWS Lambda</text>
+<rect x="254" y="268" width="44" height="25" rx="12.5" fill="#fbbf24" fill-opacity="0.09" stroke="#fbbf24" stroke-opacity="0.45"/>
+<text x="276.0" y="285" text-anchor="middle" font-size="12" fill="#e2e8f0">GCP</text>
+<rect x="306" y="268" width="67" height="25" rx="12.5" fill="#fbbf24" fill-opacity="0.09" stroke="#fbbf24" stroke-opacity="0.45"/>
+<text x="339.5" y="285" text-anchor="middle" font-size="12" fill="#e2e8f0">Docker</text>
+<rect x="381" y="268" width="67" height="25" rx="12.5" fill="#fbbf24" fill-opacity="0.09" stroke="#fbbf24" stroke-opacity="0.45"/>
+<text x="414.5" y="285" text-anchor="middle" font-size="12" fill="#e2e8f0">Vercel</text>
+<rect x="456" y="268" width="126" height="25" rx="12.5" fill="#fbbf24" fill-opacity="0.09" stroke="#fbbf24" stroke-opacity="0.45"/>
+<text x="519.0" y="285" text-anchor="middle" font-size="12" fill="#e2e8f0">GitHub Actions</text>
+</g>
+<g opacity="0"><animate attributeName="opacity" from="0" to="1" begin="1.44s" dur="0.45s" fill="freeze"/>
+<text x="28" y="331" font-size="13" font-weight="bold" fill="#ff5e7d">Datos</text>
+<rect x="150" y="314" width="96" height="25" rx="12.5" fill="#ff5e7d" fill-opacity="0.09" stroke="#ff5e7d" stroke-opacity="0.45"/>
+<text x="198.0" y="331" text-anchor="middle" font-size="12" fill="#e2e8f0">PostgreSQL</text>
+<rect x="254" y="314" width="74" height="25" rx="12.5" fill="#ff5e7d" fill-opacity="0.09" stroke="#ff5e7d" stroke-opacity="0.45"/>
+<text x="291.0" y="331" text-anchor="middle" font-size="12" fill="#e2e8f0">MongoDB</text>
+<rect x="336" y="314" width="82" height="25" rx="12.5" fill="#ff5e7d" fill-opacity="0.09" stroke="#ff5e7d" stroke-opacity="0.45"/>
+<text x="377.0" y="331" text-anchor="middle" font-size="12" fill="#e2e8f0">Supabase</text>
+<rect x="426" y="314" width="82" height="25" rx="12.5" fill="#ff5e7d" fill-opacity="0.09" stroke="#ff5e7d" stroke-opacity="0.45"/>
+<text x="467.0" y="331" text-anchor="middle" font-size="12" fill="#e2e8f0">BigQuery</text>
+<rect x="516" y="314" width="59" height="25" rx="12.5" fill="#ff5e7d" fill-opacity="0.09" stroke="#ff5e7d" stroke-opacity="0.45"/>
+<text x="545.5" y="331" text-anchor="middle" font-size="12" fill="#e2e8f0">Redis</text>
+</g>
+<g opacity="0"><animate attributeName="opacity" from="0" to="1" begin="1.62s" dur="0.45s" fill="freeze"/>
+<text x="28" y="377" font-size="13" font-weight="bold" fill="#a78bfa">IA</text>
+<rect x="150" y="360" width="67" height="25" rx="12.5" fill="#a78bfa" fill-opacity="0.09" stroke="#a78bfa" stroke-opacity="0.45"/>
+<text x="183.5" y="377" text-anchor="middle" font-size="12" fill="#e2e8f0">Claude</text>
+<rect x="225" y="360" width="67" height="25" rx="12.5" fill="#a78bfa" fill-opacity="0.09" stroke="#a78bfa" stroke-opacity="0.45"/>
+<text x="258.5" y="377" text-anchor="middle" font-size="12" fill="#e2e8f0">Gemini</text>
+<rect x="300" y="360" width="52" height="25" rx="12.5" fill="#a78bfa" fill-opacity="0.09" stroke="#a78bfa" stroke-opacity="0.45"/>
+<text x="326.0" y="377" text-anchor="middle" font-size="12" fill="#e2e8f0">Groq</text>
+<rect x="360" y="360" width="89" height="25" rx="12.5" fill="#a78bfa" fill-opacity="0.09" stroke="#a78bfa" stroke-opacity="0.45"/>
+<text x="404.5" y="377" text-anchor="middle" font-size="12" fill="#e2e8f0">LangChain</text>
+<rect x="457" y="360" width="67" height="25" rx="12.5" fill="#a78bfa" fill-opacity="0.09" stroke="#a78bfa" stroke-opacity="0.45"/>
+<text x="490.5" y="377" text-anchor="middle" font-size="12" fill="#e2e8f0">Ollama</text>
+<rect x="532" y="360" width="44" height="25" rx="12.5" fill="#a78bfa" fill-opacity="0.09" stroke="#a78bfa" stroke-opacity="0.45"/>
+<text x="554.0" y="377" text-anchor="middle" font-size="12" fill="#e2e8f0">RAG</text>
+</g>
+
+  <g opacity="0"><animate attributeName="opacity" from="0" to="1" begin="1.90s" dur="0.5s" fill="freeze"/>
+    <text x="28" y="436" font-size="13"><tspan fill="#ff3131">$</tspan><tspan fill="#8b8b93" font-style="italic"> "si no sobrevive a usuarios reales, no está terminado"</tspan></text>
+    <rect x="473" y="424" width="8" height="15" fill="#e2e8f0">
+      <animate attributeName="opacity" values="1;1;0;0;1" keyTimes="0;0.5;0.5;1;1" dur="1s" begin="2.40s" repeatCount="indefinite"/>
+    </rect>
+  </g>
+</svg>
