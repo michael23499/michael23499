@@ -1,0 +1,35 @@
+name: generate city
+
+on:
+  schedule:
+    - cron: "0 1 * * 0" # semanal (domingo): la captura 3D es costosa
+  workflow_dispatch:
+
+jobs:
+  city:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      # skyline.github.com fue retirado por GitHub; usamos GithubCity como
+      # sitio alternativo vía plugin_skyline_settings (soportado oficialmente).
+      # ready: la página añade la clase "hidden" a #selectionScreen justo
+      # cuando los datos llegan y la ciudad empieza a renderizarse.
+      - uses: lowlighter/metrics@latest
+        with:
+          filename: metrics.city.svg
+          token: NOT_NEEDED
+          base: ""
+          plugin_skyline: yes
+          plugin_skyline_frames: 60
+          plugin_skyline_quality: 0.6
+          plugin_skyline_settings: |
+            {
+              "url": "https://honzaap.github.io/GithubCity/?name=${login}&year=${year}",
+              "ready": "document.getElementById('selectionScreen').classList.contains('hidden')",
+              "wait": 10,
+              "hide": ".canvas-ui, .mobile-rotate"
+            }
+          output_action: commit
+          committer_branch: metrics-output
+          committer_message: "chore: actualiza ciudad 3D [skip ci]"

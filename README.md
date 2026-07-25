@@ -78,9 +78,9 @@
 
 <img src="https://raw.githubusercontent.com/michael23499/michael23499/output/github-contribution-grid-snake.svg" width="100%" alt="Snake comiéndose mis contribuciones del año" />
 
-### 🧊 Contribuciones en isométrico
+### 🏙️ Mi ciudad de contribuciones
 
-<img src="https://raw.githubusercontent.com/michael23499/michael23499/metrics-output/metrics.isocalendar.svg" width="100%" alt="Calendario isométrico de mis contribuciones, racha y media diaria" />
+<img src="https://raw.githubusercontent.com/michael23499/michael23499/metrics-output/metrics.city.svg" width="100%" alt="Ciudad 3D generada a partir de mis contribuciones del año" />
 
 ---
 
