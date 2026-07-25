@@ -16,11 +16,14 @@
 
 > ### **「 Construyo productos donde la IA no es una demo — es producción 」**
 
-<div align="center">
+<div align="center"><h3><samp>michael@github ~ $ whoami</samp></h3></div>
 
-<img src="assets/neofetch-card.svg" width="720" alt="Tarjeta estilo neofetch con mi perfil: Full Stack Developer, AI & RAG Integration, 5+ años en producción" />
-
-</div>
+<table>
+<tr>
+<td width="34%"><img src="assets/ascii-portrait.svg" width="100%" alt="Retrato ASCII de Michael generado desde su foto de perfil" /></td>
+<td width="66%"><img src="assets/neofetch-card.svg" width="100%" alt="Tarjeta estilo neofetch con mi perfil: Full Stack Developer, AI & RAG Integration, 5+ años en producción" /></td>
+</tr>
+</table>
 
 - 📫 <samp><b>Encuéntrame</b></samp> → [<kbd> 🌐 Portfolio </kbd>](https://michael-arismendi-portfolio.vercel.app) · [<kbd> 💼 LinkedIn </kbd>](https://linkedin.com/in/michael-arismendi/) · [<kbd> ✉️ Email </kbd>](mailto:michaelarismendi2@gmail.com)
 
