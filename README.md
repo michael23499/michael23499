@@ -16,10 +16,12 @@
 
 > ### **「 Construyo productos donde la IA no es una demo — es producción 」**
 
-- 🔭 <samp><b>Ahora mismo</b></samp> → creando **agentes RAG** y afinando **LLMs**: respuestas con **citas verificables**, cero alucinaciones
-- 🛠️ <samp><b>Stack diario</b></samp> → `React` · `Next.js` · `TypeScript` · `Node.js` · `Go` · `PostgreSQL` · `Supabase` · `GCP`
-- 🤖 <samp><b>Especialidad</b></samp> → llevar `Claude` · `GPT` · `Gemini` · `Groq` a producción con **guardrails reales**
-- ⚡ <samp><b>Filosofía</b></samp> → si no sobrevive a usuarios reales, **no está terminado**
+<div align="center">
+
+<img src="assets/neofetch-card.svg" width="720" alt="Tarjeta estilo neofetch con mi perfil: Full Stack Developer, AI & RAG Integration, 5+ años en producción" />
+
+</div>
+
 - 📫 <samp><b>Encuéntrame</b></samp> → [<kbd> 🌐 Portfolio </kbd>](https://michael-arismendi-portfolio.vercel.app) · [<kbd> 💼 LinkedIn </kbd>](https://linkedin.com/in/michael-arismendi/) · [<kbd> ✉️ Email </kbd>](mailto:michaelarismendi2@gmail.com)
 
 ### 🧰 Stack
