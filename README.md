@@ -10,16 +10,17 @@
 <br>
 <br>
 
-<!-- ascii portrait (left) + streak/numbers card (right). both svgs are
+<!-- ascii name banner (left) + streak/numbers card (right). both svgs are
      840x880 so equal widths give equal heights.
-     portrait: python scripts/prep_photo.py <photo.png> && python scripts/make_ascii_svg.py
+     banner:   python scripts/make_name_svg.py (VARIANT=ansi|slant|rebel|combo)
+     photo portrait alternative: python scripts/prep_photo.py && python scripts/make_ascii_svg.py
      stats:    python scripts/render_stats_svg.py (same daily workflow) -->
 
 <h3><code>michael@github ~ $ whoami</code></h3>
 
 <table>
 <tr>
-<td valign="top"><img src="./assets/ascii-portrait.svg" width="420" alt="Michael Arismendi — ASCII portrait" /></td>
+<td valign="top"><img src="./assets/ascii-name.svg" width="420" alt="Michael Arismendi — ASCII name banner: full stack developer, AI &amp; RAG" /></td>
 <td valign="top"><img src="./assets/stats.svg" width="420" alt="Michael's GitHub streak and contribution stats — auto-refreshed daily" /></td>
 </tr>
 </table>
