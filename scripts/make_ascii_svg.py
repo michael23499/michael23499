@@ -121,8 +121,13 @@ for i, dotcol in enumerate(["#ff5f56", "#ffbd2e", "#27c93f"]):
 parts.append(f'<text x="{CANVAS_W/2}" y="{TITLEBAR_H/2 + 4}" fill="{TITLE_TEXT}" font-size="12" '
              f'text-anchor="middle">michael@github: ~$ ./portrait.sh</text>')
 
-# one <text> per row (single color -> no per-char markup, tiny file)
+# one <text> per row (single color -> no per-char markup, tiny file).
+# The art sits in a group with opacity 0.999: browsers (Chrome/Edge on Windows)
+# otherwise render these tiny glyphs with subpixel (ClearType) antialiasing,
+# which shows up as blue/orange/yellow colour fringes. A non-opaque group
+# forces grayscale antialiasing, so the glyphs stay one neutral grey.
 font_size = CELL_H * 0.86
+parts.append('<g opacity="0.999">')
 for ry, line in enumerate(rows_txt):
     y = art_top + ry * CELL_H + CELL_H * 0.74
     row_y = art_top + ry * CELL_H
@@ -148,6 +153,8 @@ for ry, line in enumerate(rows_txt):
         f'<set attributeName="opacity" to="0.85" begin="{delay:.3f}s"/>'
         f'<set attributeName="opacity" to="0" begin="{delay+ROW_DUR:.3f}s"/></rect>'
     )
+
+parts.append('</g>')
 
 # status bar with a steady blinking cursor
 status_line_y = TITLEBAR_H + ART_H + PAD * 0.35

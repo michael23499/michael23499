@@ -27,7 +27,7 @@ MUTED = "#7d8590"
 INK = "#e6edf3"
 ACCENT = "#ff3131"      # keys, user / host
 HIGHLIGHT = "#fbbf24"   # project names in Highlights
-SWATCHES = ["#484f58", "#ff3131", "#3fb950", "#fbbf24", "#58a6ff", "#bc8cff", "#39c5cf", "#e6edf3"]
+SWATCHES = ["#0d0d0d", "#3d1414", "#7a1f1f", "#c92a2a", "#ff3131", "#ff6b6b", "#fbbf24", "#e6edf3"]  # brand palette
 
 W = 860
 PAD = 24
@@ -42,14 +42,20 @@ WRAP = 84                      # max value chars per line before wrapping
 STAGGER = 0.07
 DUR = 0.4
 
-# (key, value) rows. value may be a list of (text, color) runs.
+# (key, value) rows. value is a string, or (company, rest) to bold the company.
 # key "" = continuation line; key "-" = highlight bullet (name, description).
 ROWS = [
-    ("Now", "Full Stack & AI Developer @ Kynegos (Jun 2026 – present)"),
-    ("", "RAG agents for automated public-tender analysis"),
-    ("Prev", "Platomico — 4 LLMs in product (GPT, Claude, Gemini, Groq) with real-time streaming"),
-    ("Prev", "Full&Fast — serverless AWS platform for BESS & fast chargers (CONNECT®)"),
-    ("Prev", "La Mundial de Seguros · Banco Venezolano de Crédito · Alcaldía de Sucre"),
+    ("Now", ("Kynegos", " — Full Stack & AI Developer (Jun 2026 – present)")),
+    ("", "AI agents with RAG architecture for automated public-tender analysis"),
+    ("", "Full stack features in production: React · Next.js · Node.js · Go"),
+    ("", "LLM pipelines for semantic extraction & querying of documents"),
+    ("", "Supabase (PostgreSQL) · GCP · BigQuery"),
+    ("Prev", ("Full&Fast", " — cloud lead for CONNECT® (BESS & fast chargers) · serverless AWS")),
+    ("", "-35% cloud cost, real-time telemetry across sites"),
+    ("Prev", ("La Mundial de Seguros", " — insurance platform · policy issuance 48h → 2h, +25% conv.")),
+    ("Prev", ("Banco Venezolano de Crédito", " — systems audits automated with Python")),
+    ("Prev", ("Alcaldía de Sucre", " — full stack apps for public administration")),
+    ("Prev", ("Platomico", " — LLM features in product")),
     ("Stack", "React · Next.js · TypeScript · Node.js · Go · Python · AWS Lambda · Supabase · GCP"),
     ("AI", "Claude · GPT · Gemini · Groq · LangChain · Ollama · RAG"),
     ("Highlights", None),
@@ -65,9 +71,12 @@ esc = html.escape
 
 
 def text(x, y, runs, size=FONT, weight=None):
-    """One <text> line made of (string, color) runs."""
+    """One <text> line made of (string, color[, weight]) runs."""
     w = f' font-weight="{weight}"' if weight else ""
-    spans = "".join(f'<tspan fill="{c}">{esc(s)}</tspan>' for s, c in runs)
+    spans = ""
+    for r in runs:
+        rw = f' font-weight="{r[2]}"' if len(r) > 2 else ""
+        spans += f'<tspan fill="{r[1]}"{rw}>{esc(r[0])}</tspan>'
     return f'<text xml:space="preserve" x="{x:.1f}" y="{y:.1f}" font-size="{size}"{w}>{spans}</text>'
 
 
@@ -86,9 +95,10 @@ for key, val in ROWS:
     elif val is None:
         lines.append(lambda y, k=key: text(PAD, y, [(k + ":", ACCENT)], weight=700))
     else:
-        assert len(val) <= WRAP, f"wrap this value by hand: {val}"
-        lines.append(lambda y, k=key, v=val: (
-            text(PAD, y, [(k + ":", ACCENT)], weight=700) + text(vx, y, [(v, INK)])))
+        runs = ([(val[0], INK, 700), (val[1], INK)] if isinstance(val, tuple) else [(val, INK)])
+        assert sum(len(r[0]) for r in runs) <= WRAP, f"wrap this value by hand: {val}"
+        lines.append(lambda y, k=key, r=runs: (
+            text(PAD, y, [(k + ":", ACCENT)], weight=700) + text(vx, y, r)))
 
 body_top = TITLEBAR_H + PAD + FONT
 n_lines = len(lines) + 3                      # + spacer, swatches, prompt
