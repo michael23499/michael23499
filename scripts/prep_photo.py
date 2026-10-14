@@ -30,7 +30,7 @@ Usage (run locally; CI never runs the portrait pipeline):
 FACE_BOX and CHIN_Y are in source-photo pixel coordinates; the beard / mouth
 polygons and hood geometry are in working (WORK_W) pixels. Adjust them if the
 source crop changes. Every HOOD_* / BEARD* knob can be overridden from the
-environment, e.g.  HOOD=0 python scripts/prep_photo.py  for the plain version.
+environment, e.g.  HOOD=1 python scripts/prep_photo.py  for the hooded version.
 
 Adapted from AVIVASHISHTA29/AVIVASHISHTA29 (scripts/prep_photo.py).
 """
@@ -77,7 +77,7 @@ BEARD_POLY = [(266, 462), (350, 452), (385, 430), (450, 422), (520, 427), (566, 
 MOUTH_POLY = [(352, 466), (382, 451), (450, 443), (520, 449), (561, 463),
               (530, 491), (450, 503), (385, 493)]   # lips + teeth (smile gap)
 
-HOOD = knob("HOOD", 1)                # 0 = plain portrait, no hood
+HOOD = knob("HOOD", 0)                # 1 = add the procedural hacker hood
 HOOD_ZOOM = knob("HOOD_ZOOM", 0.82)    # portrait scale inside the canvas
 HOOD_W = knob("HOOD_W", 285)          # half-width of the hood at the temples
 HOOD_PEAK = knob("HOOD_PEAK", 95)      # how far the peak rises above the head

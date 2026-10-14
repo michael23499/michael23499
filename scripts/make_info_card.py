@@ -60,7 +60,6 @@ ROWS = [
     ("AI", "Claude · GPT · Gemini · Groq · LangChain · Ollama · RAG"),
     ("Highlights", None),
     ("-", ("local-rag-chat", "100% local RAG with source citations (open source)")),
-    ("-", ("CONNECT®", "-35% cloud cost, real-time telemetry across sites")),
     ("-", ("Insurance platform", "policy issuance 48h → 2h, +25% conversion")),
     ("-", ("AI scraping pipelines", "50K+ records/day")),
     ("Uptime", "5+ years in production · banking, insurance, energy, public sector"),
