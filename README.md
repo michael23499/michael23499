@@ -33,8 +33,6 @@
 
 ### 🧑‍💻 Sobre mí
 
-> ### **「 Construyo productos donde la IA no es una demo — es producción 」**
-
 - 📫 <samp><b>Encuéntrame</b></samp> → [<kbd> 🌐 Portfolio </kbd>](https://michael-arismendi-portfolio.vercel.app) · [<kbd> 💼 LinkedIn </kbd>](https://linkedin.com/in/michael-arismendi/) · [<kbd> ✉️ Email </kbd>](mailto:michaelarismendi2@gmail.com)
 
 ### 🧰 Stack
