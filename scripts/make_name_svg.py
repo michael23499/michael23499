@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Render the name banner (figlet-style ASCII "MICHAEL ARISMENDI") as a
-terminal-window SVG, assets/ascii-name.svg -- the text alternative to the
+terminal-window SVG, assets/name-banner.svg -- the text alternative to the
 photo portrait (scripts/prep_photo.py + make_ascii_svg.py, kept as an option).
 
 Same 840 x 880 window as assets/ascii-portrait.svg / assets/stats.svg so the
@@ -21,7 +21,7 @@ import os
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, "..", "assets", "ascii-name.svg")
+OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, "..", "assets", "name-banner.svg")
 VARIANT = os.environ.get("VARIANT", "combo")
 STATIC = bool(os.environ.get("STATIC"))
 

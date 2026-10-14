@@ -20,7 +20,7 @@
 
 <table>
 <tr>
-<td valign="top"><img src="./assets/ascii-name.svg" width="420" alt="Michael Arismendi — ASCII name banner: full stack developer, AI &amp; RAG" /></td>
+<td valign="top"><img src="./assets/name-banner.svg" width="420" alt="Michael Arismendi — ASCII name banner: full stack developer, AI &amp; RAG" /></td>
 <td valign="top"><img src="./assets/stats.svg" width="420" alt="Michael's GitHub streak and contribution stats — auto-refreshed daily" /></td>
 </tr>
 </table>
