@@ -19,9 +19,7 @@
 
 <table>
 <tr>
-<!-- PORTRAIT (uncomment once assets/ascii-portrait.svg exists)
 <td valign="top"><img src="./assets/ascii-portrait.svg" width="420" alt="Michael Arismendi — ASCII portrait" /></td>
-PORTRAIT -->
 <td valign="top"><img src="./assets/stats.svg" width="420" alt="Michael's GitHub streak and contribution stats — auto-refreshed daily" /></td>
 </tr>
 </table>
