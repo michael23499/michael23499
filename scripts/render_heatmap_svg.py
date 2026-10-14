@@ -3,7 +3,9 @@
 Render data/contributions.json (written by fetch_contributions.py) as an
 animated GitHub-style contribution graph: squares pop in one by one along a
 diagonal sweep (CSS keyframes, play once then hold), with month / weekday
-labels and an "N contributions in the last year" line underneath.
+labels, an "N contributions in the last year" line underneath and a
+"Less [] [] [] [] [] More" legend on the right. The very top days (level 4 and
+above the NEON_PCT percentile of active days) get an extra neon shade.
 
 Adapted from AVIVASHISHTA29/AVIVASHISHTA29 (scripts/generate_streak_svg.py),
 recolored to a red palette.
@@ -27,6 +29,8 @@ total = data["total_contributions"]
 # ---- layout ----
 CELL, GAP, RAD, LEFT, TOP = 13, 3, 2.5, 34, 24
 COLORS = ["#161b22", "#3d1414", "#7a1f1f", "#c92a2a", "#ff3131"]  # GitHub levels 0-4
+NEON = "#ff6b6b"        # 6th shade for the very top days
+NEON_PCT = 98           # percentile of active-day counts that counts as "very top"
 GRAY = "#7d8590"
 MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
@@ -43,6 +47,9 @@ H = TOP + 7 * (CELL + GAP) + 22
 # timing (seconds)
 REVEAL, DUR = 3.6, 0.55
 maxorder = (NW - 1) + 6 * 0.55
+
+active = sorted(c["count"] for c in contribs if c["count"] > 0)
+neon_min = active[min(len(active) - 1, int(len(active) * NEON_PCT / 100))] if active else 1 << 30
 
 rects, labels = [], []
 last_m = None
@@ -61,15 +68,30 @@ for j, c in enumerate(contribs):
     y = TOP + row * (CELL + GAP)
     delay = round((wk + row * 0.55) / maxorder * REVEAL, 3)
     cls = "c g" if lvl >= 1 else "c e"
+    fill = NEON if lvl == 4 and c["count"] >= neon_min else COLORS[lvl]
     rects.append(
         f'<rect class="{cls}" x="{x}" y="{y}" width="{CELL}" height="{CELL}" rx="{RAD}" '
-        f'fill="{COLORS[lvl]}" style="animation-delay:{delay}s"/>'
+        f'fill="{fill}" style="animation-delay:{delay}s"/>'
     )
+
+# legend, right-aligned with the grid on the total line
+LEG = 11
+right = LEFT + NW * (CELL + GAP) - GAP
+base = H - 6
+more_w = 30
+x = right - more_w
+legend = [f'<text class="lbl leg" x="{right}" y="{base}" text-anchor="end">More</text>']
+x -= 6 + len(COLORS) * (LEG + 3) - 3
+for k, col in enumerate(COLORS):
+    legend.append(f'<rect x="{x + k * (LEG + 3)}" y="{base - LEG + 1}" width="{LEG}" height="{LEG}" '
+                  f'rx="2" fill="{col}"/>')
+legend.append(f'<text class="lbl leg" x="{x - 6}" y="{base}" text-anchor="end">Less</text>')
 
 svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif">
 <style>
   text.lbl {{ fill:{GRAY}; font-size:13px; font-weight:600; }}
   text.total {{ fill:#e6edf3; font-size:15px; font-weight:700; }}
+  text.leg {{ font-size:12px; font-weight:400; }}
   .c {{ transform-box:fill-box; transform-origin:center; opacity:0; animation:pop {DUR}s ease-out both; }}
   .g {{ animation:pop {DUR}s ease-out both, flash {DUR + 0.15:.2f}s ease-out both; }}
   @keyframes pop {{ 0%{{opacity:0;transform:scale(.2)}} 60%{{opacity:1;transform:scale(1.1)}} 100%{{opacity:1;transform:scale(1)}} }}
@@ -80,6 +102,7 @@ svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewB
 {''.join(labels)}
 {''.join(rects)}
 <text class="total" x="{LEFT}" y="{H - 6}">{total:,} contributions in the last year</text>
+{''.join(legend)}
 </svg>'''
 
 os.makedirs(os.path.dirname(os.path.abspath(OUT)), exist_ok=True)

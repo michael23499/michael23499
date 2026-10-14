@@ -27,6 +27,13 @@
 <br>
 <br>
 
+<h3><code>michael@github ~ $ neofetch</code></h3>
+
+<img src="./assets/info-card.svg" width="860" alt="Michael Arismendi — current role, previous roles, stack, AI tools, highlights and location in a neofetch-style card" />
+
+<br>
+<br>
+
 <h3><code>michael@github ~ $ ./links.sh</code></h3>
 
 <p><b>Full Stack Developer · AI & RAG Integration</b></p>
