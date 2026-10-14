@@ -50,8 +50,9 @@ MAX_FS = 46         # cap so short words do not get absurdly large
 REVEAL = 4.6        # seconds for the whole banner to print
 
 # ---- variants -------------------------------------------------------------
-# blocks: ("fig", font, word, width_fraction, fill[, stroke])  fill = "red" | "grey" | colour;
-#         stroke (px) thickens thin fonts such as slant (default SEAM)
+# blocks: ("fig", font, word, width_fraction, fill[, stroke[, stretch]])
+#         fill = "red" | "grey" | colour; stroke (px, None = SEAM) thickens thin
+#         fonts such as slant; stretch > 1 makes the glyphs taller (vertical scale)
 #         ("txt", text, font_size, colour)
 #         ("gap", px)
 VARIANTS = {
@@ -77,12 +78,11 @@ VARIANTS = {
         ("txt", "full stack · ai & rag", 17, MUTED),
     ],
     "combo": [
-        ("txt", "$ whoami", 16, MUTED), ("gap", 22),
-        ("fig", "ansi_shadow", "MICH", 0.84, "red"),
-        ("fig", "ansi_shadow", "AEL", 0.67, "red"), ("gap", 26),
-        ("fig", "ansi_shadow", "ARISMENDI", 0.90, "grey"), ("gap", 34),
-        ("txt", "full stack developer · ai & rag", 17, LIGHT), ("gap", 4),
-        ("txt", "madrid, spain · 5+ years in production", 15, MUTED),
+        ("txt", "$ whoami", 18, MUTED), ("gap", 34),
+        ("fig", "ansi_shadow", "MICHAEL", 0.97, "red", None, 1.75), ("gap", 40),
+        ("fig", "ansi_shadow", "ARISMENDI", 0.88, "grey", None, 1.45), ("gap", 52),
+        ("txt", "full stack developer · ai & rag", 21, LIGHT), ("gap", 6),
+        ("txt", "madrid, spain · 5+ years in production", 17, MUTED),
     ],
 }
 
@@ -227,12 +227,13 @@ def layout(blocks):
             items.append(("txt", (text, fs, col), fs * 1.5))
         else:
             _, font, word, frac, fill = b[:5]
-            stroke = b[5] if len(b) > 5 else SEAM
+            stroke = b[5] if len(b) > 5 and b[5] is not None else SEAM
+            stretch = b[6] if len(b) > 6 else 1.0
             rows = FIGLET[(font, word)]
             cols = max(len(r) for r in rows)
             rows = [r.ljust(cols) for r in rows]
             fs = min(MAX_FS, ART_W * frac / (cols * CHAR_W))
-            items.append(("fig", (rows, cols, fs, fill, stroke), len(rows) * fs * LINE_H))
+            items.append(("fig", (rows, cols, fs, fill, stroke, stretch), len(rows) * fs * LINE_H * stretch))
     return items
 
 
@@ -255,7 +256,7 @@ for n, (kind, payload, h) in enumerate(items):
                       f'fill="{col}" text-anchor="middle">{html.escape(text)}</text>'))
         y += h
         continue
-    rows, cols, fs, fill, stroke = payload
+    rows, cols, fs, fill, stroke, stretch = payload
     if fill in ("red", "grey"):
         gid = f"g{n}"
         stops = ([(0, RED_TOP), (0.55, RED_MID), (1, RED_BOT)] if fill == "red"
@@ -268,11 +269,13 @@ for n, (kind, payload, h) in enumerate(items):
         paint = fill
     w = cols * CHAR_W * fs
     for r in rows:
-        rh = fs * LINE_H
-        lines.append((y, rh, cx - w / 2, w,
-                      f'<text xml:space="preserve" x="{cx - w / 2:.1f}" y="{y + fs * 0.86:.1f}" font-size="{fs:.2f}" '
-                      f'fill="{paint}" stroke="{paint}" stroke-width="{stroke:.2f}" textLength="{w:.1f}" '
-                      f'lengthAdjust="spacingAndGlyphs">{html.escape(r)}</text>'))
+        rh = fs * LINE_H * stretch
+        glyphs = (f'<text xml:space="preserve" x="{cx - w / 2:.1f}" y="{y + fs * 0.86:.1f}" font-size="{fs:.2f}" '
+                  f'fill="{paint}" stroke="{paint}" stroke-width="{stroke:.2f}" textLength="{w:.1f}" '
+                  f'lengthAdjust="spacingAndGlyphs">{html.escape(r)}</text>')
+        if stretch != 1.0:   # taller glyphs: scale the row vertically about its top edge
+            glyphs = f'<g transform="matrix(1 0 0 {stretch:.3f} 0 {y * (1 - stretch):.2f})">{glyphs}</g>'
+        lines.append((y, rh, cx - w / 2, w, glyphs))
         y += rh
 
 # ---- assemble -------------------------------------------------------------
