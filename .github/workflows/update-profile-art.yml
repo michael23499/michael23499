@@ -1,0 +1,38 @@
+name: update profile art
+
+on:
+  schedule:
+    - cron: "17 6 * * *" # daily
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  heatmap:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # Only the scraping/rendering deps; the portrait pipeline runs locally.
+      - name: install dependencies
+        run: pip install requests==2.32.3 beautifulsoup4==4.12.3
+
+      - name: fetch contributions
+        run: python scripts/fetch_contributions.py ${{ github.repository_owner }}
+
+      - name: render heatmap
+        run: python scripts/render_heatmap_svg.py
+
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: refresh contribution heatmap [skip ci]"
+          file_pattern: "data/contributions.json assets/contrib-heatmap.svg"

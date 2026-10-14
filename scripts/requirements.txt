@@ -1,0 +1,10 @@
+# CI dependencies (used by .github/workflows/update-profile-art.yml)
+requests==2.32.3
+beautifulsoup4==4.12.3
+
+# Portrait pipeline only (run locally: prep_photo.py + make_ascii_svg.py).
+# Uncomment to install:
+# pillow
+# numpy
+# opencv-python
+# rembg

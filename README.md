@@ -10,17 +10,30 @@
 
 </div>
 
+<div align="center">
+
+<h3><code>michael@github ~ $ ./contributions.sh</code></h3>
+
+<img src="./assets/contrib-heatmap.svg" width="860" alt="Mapa de calor de mis contribuciones del último año, con racha actual, racha más larga y mejor día" />
+
+<h3><code>michael@github ~ $ whoami</code></h3>
+
+<table>
+  <tr>
+    <!-- PORTRAIT: uncomment this cell once assets/ascii-portrait.svg exists
+    <td><img src="./assets/ascii-portrait.svg" width="370" alt="Retrato ASCII de Michael Arismendi" /></td>
+    PORTRAIT -->
+    <td><img src="./assets/info-card.svg" width="490" alt="Michael Arismendi: Full Stack Developer, AI &amp; RAG Integration, Madrid. Stack: TypeScript, Go, Python, React, Next.js, Angular, Node.js, FastAPI, Laravel, Django, PostgreSQL, MongoDB, Supabase, BigQuery, AWS Lambda, GCP, Docker, Vercel, Claude, Gemini, Groq, LangChain, Ollama" /></td>
+  </tr>
+</table>
+
+</div>
+
 ---
 
 ### 🧑‍💻 Sobre mí
 
 > ### **「 Construyo productos donde la IA no es una demo — es producción 」**
-
-<div align="center">
-
-<img src="assets/stack-card.svg" width="860" alt="Michael Arismendi — Full Stack Developer · AI & RAG Integration. Stack: Frontend (React, Next.js, TypeScript, Angular, Tailwind, Vite), Backend (Node.js, Go, Python, FastAPI, Laravel), Cloud (AWS Lambda, GCP, Docker, Vercel, GitHub Actions), Datos (PostgreSQL, MongoDB, Supabase, BigQuery, Redis), IA (Claude, Gemini, Groq, LangChain, Ollama, RAG)" />
-
-</div>
 
 - 📫 <samp><b>Encuéntrame</b></samp> → [<kbd> 🌐 Portfolio </kbd>](https://michael-arismendi-portfolio.vercel.app) · [<kbd> 💼 LinkedIn </kbd>](https://linkedin.com/in/michael-arismendi/) · [<kbd> ✉️ Email </kbd>](mailto:michaelarismendi2@gmail.com)
 
@@ -79,10 +92,6 @@
 ### 🐍 Actividad
 
 <img src="https://raw.githubusercontent.com/michael23499/michael23499/output/github-contribution-grid-snake.svg" width="100%" alt="Snake comiéndose mis contribuciones del año" />
-
-### 🏙️ Mi ciudad de contribuciones
-
-<img src="https://raw.githubusercontent.com/michael23499/michael23499/metrics-output/metrics.city.svg" width="100%" alt="Ciudad 3D generada a partir de mis contribuciones del año" />
 
 ---
 
