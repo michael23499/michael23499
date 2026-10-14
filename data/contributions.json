@@ -1,35 +1,81 @@
 {
-  "user": "michael23499",
-  "generated_at": "2026-10-14T11:51:30+00:00",
+  "username": "michael23499",
+  "generated_at": "2026-10-14T11:55:47Z",
   "range": {
     "start": "2025-10-12",
     "end": "2026-10-14"
   },
-  "stats": {
-    "total": 543,
-    "current_streak": 1,
-    "longest_streak": 7,
-    "best_day": {
-      "date": "2026-03-26",
-      "count": 24
-    },
-    "active_days": 106,
-    "monthly": {
-      "2025-10": 1,
-      "2025-11": 0,
-      "2025-12": 12,
-      "2026-01": 3,
-      "2026-02": 10,
-      "2026-03": 107,
-      "2026-04": 50,
-      "2026-05": 125,
-      "2026-06": 90,
-      "2026-07": 51,
-      "2026-08": 1,
-      "2026-09": 73,
-      "2026-10": 20
-    }
+  "total_contributions": 544,
+  "active_days": 107,
+  "avg_per_active_day": 5.1,
+  "current_streak": {
+    "length": 2,
+    "start": "2026-10-13",
+    "end": "2026-10-14"
   },
+  "longest_streak": {
+    "length": 7,
+    "start": "2026-05-23",
+    "end": "2026-05-29"
+  },
+  "best_day": {
+    "date": "2026-03-26",
+    "count": 24
+  },
+  "monthly": [
+    {
+      "month": "2025-10",
+      "total": 1
+    },
+    {
+      "month": "2025-11",
+      "total": 0
+    },
+    {
+      "month": "2025-12",
+      "total": 12
+    },
+    {
+      "month": "2026-01",
+      "total": 3
+    },
+    {
+      "month": "2026-02",
+      "total": 10
+    },
+    {
+      "month": "2026-03",
+      "total": 107
+    },
+    {
+      "month": "2026-04",
+      "total": 50
+    },
+    {
+      "month": "2026-05",
+      "total": 125
+    },
+    {
+      "month": "2026-06",
+      "total": 90
+    },
+    {
+      "month": "2026-07",
+      "total": 51
+    },
+    {
+      "month": "2026-08",
+      "total": 1
+    },
+    {
+      "month": "2026-09",
+      "total": 73
+    },
+    {
+      "month": "2026-10",
+      "total": 21
+    }
+  ],
   "days": [
     {
       "date": "2025-10-12",
@@ -1868,8 +1914,8 @@
     },
     {
       "date": "2026-10-14",
-      "count": 0,
-      "level": 0
+      "count": 1,
+      "level": 1
     }
   ]
 }

@@ -1,129 +1,125 @@
-"""Fetch a user's public GitHub contribution calendar and compute stats.
-
-Scrapes https://github.com/users/<user>/contributions (public, no auth) and
-writes data/contributions.json with per-day counts plus summary stats.
-
-Usage:
-    python scripts/fetch_contributions.py [username]
-    GITHUB_USER=someone python scripts/fetch_contributions.py
+#!/usr/bin/env python3
 """
+Scrape real daily contribution counts from GitHub's public, unauthenticated
+contributions endpoint (the same fragment the profile page itself uses) and
+write data/contributions.json with the raw days plus derived stats
+(current streak, longest streak, best day, monthly totals).
 
-from __future__ import annotations
+No token, no auth, no GraphQL -- just the public HTML GitHub already serves.
+Run daily by .github/workflows/update-profile-art.yml.
 
+Adapted from AVIVASHISHTA29/AVIVASHISHTA29 (scripts/fetch_contributions.py).
+
+    python scripts/fetch_contributions.py [username]
+"""
+import datetime
 import json
 import os
 import re
 import sys
-from collections import OrderedDict
-from datetime import date, datetime, timedelta, timezone
-from pathlib import Path
 
 import requests
 from bs4 import BeautifulSoup
 
-DEFAULT_USER = "michael23499"
-ROOT = Path(__file__).resolve().parent.parent
-OUTPUT = ROOT / "data" / "contributions.json"
-COUNT_RE = re.compile(r"^\s*([\d,]+)\s+contributions?\b", re.IGNORECASE)
+USERNAME = (sys.argv[1] if len(sys.argv) > 1 and sys.argv[1].strip()
+            else os.environ.get("GH_PROFILE_USER", "michael23499")).strip()
+URL = f"https://github.com/users/{USERNAME}/contributions"
+OUT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "contributions.json")
 
 
-def resolve_user() -> str:
-    if len(sys.argv) > 1 and sys.argv[1].strip():
-        return sys.argv[1].strip()
-    return os.environ.get("GITHUB_USER", "").strip() or DEFAULT_USER
-
-
-def fetch_html(user: str) -> str:
-    url = f"https://github.com/users/{user}/contributions"
-    resp = requests.get(
-        url,
-        headers={"User-Agent": "profile-art-bot (+https://github.com/" + user + ")"},
-        timeout=30,
-    )
+def fetch_days():
+    resp = requests.get(URL, headers={"User-Agent": "profile-readme-bot/1.0"}, timeout=30)
     resp.raise_for_status()
-    return resp.text
+    soup = BeautifulSoup(resp.text, "html.parser")
 
+    cells = soup.select("td.ContributionCalendar-day")
+    if not cells:
+        print("no calendar cells found -- github markup may have changed", file=sys.stderr)
+        sys.exit(1)
 
-def parse_count(text: str) -> int:
-    """Turn '5 contributions on ...' / 'No contributions on ...' into an int."""
-    match = COUNT_RE.match(text or "")
-    return int(match.group(1).replace(",", "")) if match else 0
-
-
-def parse_days(html: str) -> list[dict]:
-    soup = BeautifulSoup(html, "html.parser")
-    tooltips = {
-        tip.get("for"): tip.get_text(strip=True)
-        for tip in soup.find_all("tool-tip")
-        if tip.get("for")
-    }
+    tooltips = {t.get("for"): t.get_text(strip=True) for t in soup.find_all("tool-tip") if t.get("for")}
     days = []
-    for cell in soup.select("td.ContributionCalendar-day[data-date]"):
-        day_date = cell["data-date"]
-        level = int(cell.get("data-level", 0) or 0)
-        count = parse_count(tooltips.get(cell.get("id"), ""))
-        days.append({"date": day_date, "count": count, "level": level})
+    for td in cells:
+        date = td.get("data-date")
+        if not date:
+            continue
+        text = tooltips.get(td.get("id"), "")
+        m = re.match(r"([\d,]+)\s+contributions?", text, re.I)
+        count = int(m.group(1).replace(",", "")) if m else 0
+        days.append({"date": date, "count": count, "level": int(td.get("data-level") or 0)})
+
     days.sort(key=lambda d: d["date"])
-    if not days:
-        raise RuntimeError("No contribution cells found; GitHub markup may have changed.")
     return days
 
 
-def compute_stats(days: list[dict]) -> dict:
-    total = sum(d["count"] for d in days)
+def compute_current_streak(days):
+    idx = len(days) - 1
+    if days[idx]["count"] == 0:
+        idx -= 1  # today isn't over yet -- don't break the streak on it
+    streak = 0
+    end_idx = idx
+    while idx >= 0 and days[idx]["count"] > 0:
+        streak += 1
+        idx -= 1
+    start_idx = idx + 1
+    if streak == 0:
+        return 0, None, None
+    return streak, days[start_idx]["date"], days[end_idx]["date"]
 
+
+def compute_longest_streak(days):
     longest = run = 0
-    for d in days:
-        run = run + 1 if d["count"] > 0 else 0
-        longest = max(longest, run)
+    longest_start = longest_end = None
+    run_start_idx = None
+    for i, d in enumerate(days):
+        if d["count"] > 0:
+            if run == 0:
+                run_start_idx = i
+            run += 1
+            if run > longest:
+                longest = run
+                longest_start = days[run_start_idx]["date"]
+                longest_end = days[i]["date"]
+        else:
+            run = 0
+    return longest, longest_start, longest_end
 
-    # Current streak: walk back from the latest day. Today with zero
-    # contributions does not break the streak (the day is not over yet).
-    current = 0
-    tail = list(reversed(days))
-    if tail and tail[0]["count"] == 0:
-        tail = tail[1:]
-    for d in tail:
-        if d["count"] == 0:
-            break
-        current += 1
 
-    best = max(days, key=lambda d: (d["count"], d["date"]))
-    monthly: "OrderedDict[str, int]" = OrderedDict()
+def build_data(days):
+    total = sum(d["count"] for d in days)
+    active_days = sum(1 for d in days if d["count"] > 0)
+    best = max(days, key=lambda d: d["count"])
+    cur_len, cur_start, cur_end = compute_current_streak(days)
+    long_len, long_start, long_end = compute_longest_streak(days)
+
+    monthly = {}
     for d in days:
         key = d["date"][:7]
         monthly[key] = monthly.get(key, 0) + d["count"]
+    monthly_list = [{"month": k, "total": v} for k, v in sorted(monthly.items())]
 
     return {
-        "total": total,
-        "current_streak": current,
-        "longest_streak": longest,
-        "best_day": {"date": best["date"], "count": best["count"]},
-        "active_days": sum(1 for d in days if d["count"] > 0),
-        "monthly": monthly,
-    }
-
-
-def main() -> int:
-    user = resolve_user()
-    days = parse_days(fetch_html(user))
-    payload = {
-        "user": user,
-        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "username": USERNAME,
+        "generated_at": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "range": {"start": days[0]["date"], "end": days[-1]["date"]},
-        "stats": compute_stats(days),
+        "total_contributions": total,
+        "active_days": active_days,
+        "avg_per_active_day": round(total / active_days, 1) if active_days else 0,
+        "current_streak": {"length": cur_len, "start": cur_start, "end": cur_end},
+        "longest_streak": {"length": long_len, "start": long_start, "end": long_end},
+        "best_day": {"date": best["date"], "count": best["count"]},
+        "monthly": monthly_list,
         "days": days,
     }
-    OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    OUTPUT.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
-    s = payload["stats"]
-    print(
-        f"{user}: {len(days)} days, total={s['total']}, "
-        f"current={s['current_streak']}, longest={s['longest_streak']}, "
-        f"best={s['best_day']['date']} ({s['best_day']['count']})"
-    )
-    return 0
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    days = fetch_days()
+    data = build_data(days)
+    os.makedirs(os.path.dirname(OUT_PATH), exist_ok=True)
+    with open(OUT_PATH, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2)
+        f.write("\n")
+    print(f"wrote {OUT_PATH}: {data['total_contributions']} contributions, "
+          f"current streak {data['current_streak']['length']}, "
+          f"longest streak {data['longest_streak']['length']}")

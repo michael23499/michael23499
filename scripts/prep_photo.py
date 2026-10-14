@@ -1,70 +1,70 @@
-"""Prepare a portrait photo for ASCII conversion.
-
-Steps: remove the background (rembg), boost local contrast (CLAHE on the
-L channel), then composite the subject onto a white background so the
-background maps to blank characters in the ASCII ramp.
-
-Usage:
-    python scripts/prep_photo.py path/to/photo.jpg [output.png]
-
-Requires the portrait-only deps listed in scripts/requirements.txt.
 """
+Prepare the portrait photo for clean ASCII conversion:
+  1. remove the background (rembg) so the subject is isolated
+  2. bilateral-smooth away the paper texture (otherwise skin turns to `::::`
+     noise and the eyes drown in it) while keeping the drawn lines sharp
+  3. stretch tones so skin lands near white and hair/lines stay dark
+  4. darken the line work (difference-of-gaussians ridges) -- eyelids, pupils,
+     glasses frame and smile are thin dark strokes that plain luminance
+     averaging washes out at ascii resolution
+  5. composite onto white and crop square around the subject
 
-from __future__ import annotations
+Output: scripts/source-prepped.png (grayscale), consumed by make_ascii_svg.py.
 
+Usage (run locally; CI never runs the portrait pipeline):
+    pip install pillow numpy opencv-python rembg
+    python scripts/prep_photo.py path/to/photo.png [output.png]
+    python scripts/make_ascii_svg.py          # -> assets/ascii-portrait.svg
+
+Adapted from AVIVASHISHTA29/AVIVASHISHTA29 (scripts/prep_photo.py).
+"""
+import os
 import sys
-from pathlib import Path
 
 import cv2
 import numpy as np
 from PIL import Image
 from rembg import remove
 
-ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_OUTPUT = ROOT / "scripts" / "source-prepped.png"
+HERE = os.path.dirname(os.path.abspath(__file__))
+INP = sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, "source-photo.png")
+OUT = sys.argv[2] if len(sys.argv) > 2 else os.path.join(HERE, "source-prepped.png")
 
+LINE_WEIGHT = 0.6     # how hard drawn lines are pushed toward black
 
-def remove_background(img: Image.Image) -> Image.Image:
-    return remove(img.convert("RGBA"))
+# 1. cut out the subject
+cut = remove(Image.open(INP).convert("RGBA"))
+rgb = np.array(cut.convert("RGB"))
+alpha = np.array(cut.split()[-1])                 # 0 = background
+gray = cv2.cvtColor(rgb, cv2.COLOR_RGB2GRAY)
 
+# 2. smooth texture, keep edges
+smooth = gray
+for _ in range(3):
+    smooth = cv2.bilateralFilter(smooth, 9, 40, 9)
 
-def apply_clahe(rgb: np.ndarray, clip: float = 2.0, grid: int = 8) -> np.ndarray:
-    lab = cv2.cvtColor(rgb, cv2.COLOR_RGB2LAB)
-    l_chan, a_chan, b_chan = cv2.split(lab)
-    clahe = cv2.createCLAHE(clipLimit=clip, tileGridSize=(grid, grid))
-    merged = cv2.merge((clahe.apply(l_chan), a_chan, b_chan))
-    return cv2.cvtColor(merged, cv2.COLOR_LAB2RGB)
+# 3. tone stretch over the subject only
+lo, hi = np.percentile(smooth[alpha > 128], [2, 92])
+tone = np.clip((smooth.astype(np.float32) - lo) / (hi - lo), 0, 1)
 
+# 4. dark-on-light ridges -> darken
+fine = cv2.GaussianBlur(smooth, (0, 0), 1.5).astype(np.float32)
+coarse = cv2.GaussianBlur(smooth, (0, 0), 6).astype(np.float32)
+lines = np.clip((coarse - fine) / 40.0, 0, 1)
+out = np.clip(tone - LINE_WEIGHT * lines, 0, 1) * 255
 
-def composite_on_white(rgba: np.ndarray) -> np.ndarray:
-    alpha = rgba[..., 3:4].astype(np.float32) / 255.0
-    rgb = rgba[..., :3].astype(np.float32)
-    white = np.full_like(rgb, 255.0)
-    return (rgb * alpha + white * (1.0 - alpha)).clip(0, 255).astype(np.uint8)
+# 5. paste onto white (feathered a hair to avoid a halo), square crop
+mask = cv2.GaussianBlur(alpha.astype(np.float32) / 255.0, (0, 0), 1.0)
+out = out * mask + 255.0 * (1.0 - mask)
 
+ys, xs = np.where(alpha > 20)
+side = max(xs.max() - xs.min(), ys.max() - ys.min()) + 60
+cx, cy = (xs.min() + xs.max()) // 2, (ys.min() + ys.max()) // 2
+canvas = np.full((side, side), 255, np.uint8)
+x0, y0 = cx - side // 2, cy - side // 2
+sx0, sy0 = max(x0, 0), max(y0, 0)
+sx1, sy1 = min(x0 + side, out.shape[1]), min(y0 + side, out.shape[0])
+canvas[sy0 - y0:sy1 - y0, sx0 - x0:sx1 - x0] = out[sy0:sy1, sx0:sx1].astype(np.uint8)
 
-def main() -> int:
-    if len(sys.argv) < 2:
-        print(__doc__)
-        return 2
-    src = Path(sys.argv[1])
-    dst = Path(sys.argv[2]) if len(sys.argv) > 2 else DEFAULT_OUTPUT
-
-    cutout = np.array(remove_background(Image.open(src)))
-    rgb = apply_clahe(np.ascontiguousarray(cutout[..., :3]))
-    rgba = np.dstack([rgb, cutout[..., 3]])
-    result = composite_on_white(rgba)
-
-    # Trim to the subject's bounding box so the portrait fills the frame.
-    ys, xs = np.nonzero(cutout[..., 3] > 16)
-    if len(xs) and len(ys):
-        result = result[ys.min():ys.max() + 1, xs.min():xs.max() + 1]
-
-    dst.parent.mkdir(parents=True, exist_ok=True)
-    Image.fromarray(result).save(dst)
-    print(f"wrote {dst} ({result.shape[1]}x{result.shape[0]})")
-    return 0
-
-
-if __name__ == "__main__":
-    sys.exit(main())
+Image.fromarray(canvas, mode="L").save(OUT)
+print("wrote", OUT, canvas.shape)

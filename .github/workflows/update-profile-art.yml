@@ -32,7 +32,10 @@ jobs:
       - name: render heatmap
         run: python scripts/render_heatmap_svg.py
 
+      - name: render stats card
+        run: python scripts/render_stats_svg.py
+
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "chore: refresh contribution heatmap [skip ci]"
-          file_pattern: "data/contributions.json assets/contrib-heatmap.svg"
+          commit_message: "chore: refresh contribution graph [skip ci]"
+          file_pattern: "data/contributions.json assets/contrib-heatmap.svg assets/stats.svg"
