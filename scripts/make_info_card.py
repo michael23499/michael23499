@@ -55,7 +55,7 @@ ROWS = [
     ("Prev", ("La Mundial de Seguros", " — insurance platform · policy issuance 48h → 2h, +25% conv.")),
     ("Prev", ("Banco Venezolano de Crédito", " — systems audits automated with Python")),
     ("Prev", ("Alcaldía de Sucre", " — full stack apps for public administration")),
-    ("Prev", ("Platomico", " — LLM features in product")),
+    ("Prev", ("Platomico", " — LLM integrations (GPT, Claude, Gemini, Groq) in a React/TS product")),
     ("Stack", "React · Next.js · TypeScript · Node.js · Go · Python · AWS Lambda · Supabase · GCP"),
     ("AI", "Claude · GPT · Gemini · Groq · LangChain · Ollama · RAG"),
     ("Highlights", None),
